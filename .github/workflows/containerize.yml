@@ -4,6 +4,8 @@ on:
   repository_dispatch:
     types: [trigger-release]
 
+permissions: write-all
+
 jobs:
   build:
     runs-on: ubuntu-latest
