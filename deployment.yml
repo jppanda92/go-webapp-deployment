@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mondoo-webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mondoo-webapp
+  template:
+    metadata:
+      labels:
+        app: mondoo-webapp
+    spec:
+      containers:
+      - name: mondoo-webapp
+        image: ghcr.io/jppanda92/go-webapp-deployment/mondoo-webapp:${IMAGE_TAG}
+        ports:
+        - containerPort: 8080
+        env:
+          - name: APP_ENV
+            value: "dev"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mondoo-webapp-service
+spec:
+  selector:
+    app: mondoo-webapp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080  
+  type: LoadBalancer
