@@ -29,11 +29,7 @@ jobs:
 
       - name: Build the Docker image
         run: |
-          docker build -t ghcr.io/${{ github.repository }}/mondoo-webapp:${{ github.sha }} .
-      
-      - name: Set the Image Tag in Kubernetes YAML
-        run: |
-          sed -i 's|${IMAGE_TAG}|ghcr.io/${{ github.repository }}/mondoo-webapp:${{ github.sha }}|' deployment.yml    
+          docker build -t ghcr.io/${{ github.repository }}/mondoo-webapp:${{ github.sha }} .    
 
       - name: Push the Docker image to GHCR
         run: |
@@ -41,10 +37,10 @@ jobs:
 
       - name: Install cnspec
         run: |
-          curl -LO https://github.com/cncf/cnspec/releases/download/v0.1.1/cnspec-linux-amd64
-          chmod +x cnspec-linux-amd64
-          mv cnspec-linux-amd64 /usr/local/bin/cnspec
-  
-      - name: Run cnspec to validate the Docker image
+          curl -Lo cnspec https://mondoo.com/downloads/cnspec/linux/amd64
+          chmod +x cnspec
+          sudo mv cnspec /usr/local/bin/
+
+      - name: Verify Docker Image
         run: |
-          cnspec check cnspec.yaml
+          cnspec scan container ghcr.io/${{ github.repository }}/mondoo-webapp:${{ github.sha }}

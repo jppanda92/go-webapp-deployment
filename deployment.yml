@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: mondoo-webapp
-        image: ghcr.io/jppanda92/go-webapp-deployment/mondoo-webapp:${IMAGE_TAG}
+        image: ghcr.io/jppanda92/go-webapp-deployment/mondoo-webapp:latest
         ports:
         - containerPort: 8080
         env:
