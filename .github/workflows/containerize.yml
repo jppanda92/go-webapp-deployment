@@ -43,4 +43,5 @@ jobs:
 
       - name: Verify Docker Image
         run: |
+          cnspec scan local
           cnspec scan container ghcr.io/${{ github.repository }}/mondoo-webapp:${{ github.sha }}
